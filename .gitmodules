@@ -1,4 +1,4 @@
 [submodule "qsym_backend/qsym"]
 	path = src/backends/qsym/qsym
-	url = https://github.com/eurecom-s3/qsym.git
+	url = https://github.com/Egoist-debug/qsym.git
 	branch = symcc
