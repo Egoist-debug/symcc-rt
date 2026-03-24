@@ -7,6 +7,8 @@ function add_runtime_sources()
     add_files("src/Config.cpp", "src/RuntimeCommon.cpp", "src/LibcWrappers.cpp", "src/Shadow.cpp", "src/GarbageCollection.cpp")
     
     if get_config("backend") == "qsym" then
+        local llvm_prefix = get_config("symcc_llvm_prefix")
+        local llvm_major = tonumber(get_config("symcc_llvm_major"))
         add_files("src/backends/qsym/Runtime.cpp")
         local qsym_dir = "src/backends/qsym/qsym/qsym/pintool"
         add_includedirs("src/backends/qsym")
@@ -26,13 +28,9 @@ function add_runtime_sources()
         
         add_packages("z3")
         add_packages("llvm")
+        add_linkdirs(path.join(llvm_prefix, "lib"))
+        add_links("LLVM-" .. tostring(llvm_major))
 
-        -- The QSYM backend uses LLVM support APIs (e.g., APInt) and needs to
-        -- link against LLVM. The cmake::LLVM package lookup doesn't always
-        -- propagate link flags here, so we link explicitly.
-        add_linkdirs("/usr/lib/llvm-14/lib")
-        add_links("LLVM-14")
-        
         -- Qsym needs position independent code
         add_cxflags("-fPIC")
         
