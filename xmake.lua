@@ -36,6 +36,7 @@ function add_runtime_sources()
         
     elseif get_config("backend") == "simple" then
         add_files("src/backends/simple/Runtime.cpp")
+        add_includedirs("src/backends/simple")
         add_packages("z3")
         add_cxflags("-fPIC")
     end
